@@ -1,0 +1,38 @@
+name: Weekly VALORANT Ranking
+
+on:
+  schedule:
+    - cron: "0 12 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  weekly-ranking:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run weekly ranking
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          HENRIK_API_KEY: ${{ secrets.HENRIK_API_KEY }}
+          VALORANT_REGION: ap
+          VALORANT_PLATFORM: pc
+        run: python main.py
+
+      - name: Commit history
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update weekly VALORANT ranking history"
+          file_pattern: history.json
