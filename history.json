@@ -3,6 +3,27 @@
     {
       "date": "2026-06-04T01:51:27+09:00",
       "players": []
+    },
+    {
+      "date": "2026-06-04T01:56:27+09:00",
+      "players": [
+        {
+          "name": "Tar4pY",
+          "rr_gain": 0,
+          "wins": 0,
+          "losses": 0,
+          "matches": 0,
+          "mvp": 0
+        },
+        {
+          "name": "watausa",
+          "rr_gain": 0,
+          "wins": 0,
+          "losses": 0,
+          "matches": 0,
+          "mvp": 0
+        }
+      ]
     }
   ]
 }
