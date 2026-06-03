@@ -28,6 +28,9 @@ def main() -> None:
     webhook_url = os.environ.get("DISCORD_WEBHOOK_URL", "")
     region = os.environ.get("VALORANT_REGION", "ap")
     platform = os.environ.get("VALORANT_PLATFORM", "pc")
+    request_delay_seconds = float(os.environ.get("HENRIK_REQUEST_DELAY_SECONDS", "2.0"))
+    max_retries = int(os.environ.get("HENRIK_MAX_RETRIES", "5"))
+    rate_limit_wait_seconds = int(os.environ.get("HENRIK_RATE_LIMIT_WAIT_SECONDS", "60"))
 
     if not api_key:
         raise RuntimeError("HENRIK_API_KEY is required")
@@ -37,7 +40,14 @@ def main() -> None:
     previous_snapshot = history.latest_snapshot()
     current_date = jst_now()
 
-    client = HenrikApiClient(api_key=api_key, region=region, platform=platform)
+    client = HenrikApiClient(
+        api_key=api_key,
+        region=region,
+        platform=platform,
+        request_delay_seconds=request_delay_seconds,
+        max_retries=max_retries,
+        rate_limit_wait_seconds=rate_limit_wait_seconds,
+    )
     builder = RankingBuilder(client)
 
     if previous_snapshot is None:

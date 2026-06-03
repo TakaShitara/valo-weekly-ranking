@@ -29,6 +29,9 @@ jobs:
           HENRIK_API_KEY: ${{ secrets.HENRIK_API_KEY }}
           VALORANT_REGION: ap
           VALORANT_PLATFORM: pc
+          HENRIK_REQUEST_DELAY_SECONDS: "2.0"
+          HENRIK_MAX_RETRIES: "5"
+          HENRIK_RATE_LIMIT_WAIT_SECONDS: "60"
         run: python main.py
 
       - name: Commit history

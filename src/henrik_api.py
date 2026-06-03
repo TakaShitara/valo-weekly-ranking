@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+import time
 from datetime import datetime, timezone
 from typing import Any
 from urllib.parse import quote
@@ -21,12 +23,18 @@ class HenrikApiClient:
         platform: str = "pc",
         base_url: str = "https://api.henrikdev.xyz",
         timeout: int = 30,
+        request_delay_seconds: float = 2.0,
+        max_retries: int = 5,
+        rate_limit_wait_seconds: int = 60,
     ) -> None:
         self.api_key = api_key
         self.region = region
         self.platform = platform
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
+        self.request_delay_seconds = request_delay_seconds
+        self.max_retries = max_retries
+        self.rate_limit_wait_seconds = rate_limit_wait_seconds
         self.session = requests.Session()
         self.session.headers.update(
             {
@@ -95,11 +103,30 @@ class HenrikApiClient:
         )
 
     def _get(self, path: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
-        response = self.session.get(
-            f"{self.base_url}{path}",
-            params=params,
-            timeout=self.timeout,
-        )
+        for attempt in range(1, self.max_retries + 1):
+            if self.request_delay_seconds > 0:
+                time.sleep(self.request_delay_seconds)
+
+            response = self.session.get(
+                f"{self.base_url}{path}",
+                params=params,
+                timeout=self.timeout,
+            )
+
+            if response.status_code != 429:
+                break
+
+            wait_seconds = self._retry_after_seconds(response) or self.rate_limit_wait_seconds
+            logging.warning(
+                "HenrikDev rate limit hit. Waiting %s seconds before retry %s/%s.",
+                wait_seconds,
+                attempt,
+                self.max_retries,
+            )
+            time.sleep(wait_seconds)
+        else:
+            raise HenrikApiError("Rate limit exceeded")
+
         if response.status_code == 429:
             raise HenrikApiError("Rate limit exceeded")
         if response.status_code >= 400:
@@ -109,6 +136,16 @@ class HenrikApiClient:
         if status >= 400:
             raise HenrikApiError(str(payload.get("message") or payload.get("details") or status))
         return payload
+
+    @staticmethod
+    def _retry_after_seconds(response: requests.Response) -> int | None:
+        value = response.headers.get("Retry-After")
+        if value is None:
+            return None
+        try:
+            return max(1, int(value))
+        except ValueError:
+            return None
 
     @staticmethod
     def _error_message(response: requests.Response) -> str:
