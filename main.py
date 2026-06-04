@@ -68,7 +68,11 @@ def main() -> None:
     history.save()
 
     if webhook_url:
-        DiscordWebhookClient(webhook_url).post_weekly_ranking(snapshot, errors)
+        DiscordWebhookClient(webhook_url).post_weekly_ranking(
+            snapshot=snapshot,
+            previous_date=previous_snapshot.date,
+            errors=errors,
+        )
     else:
         logging.info("DISCORD_WEBHOOK_URL is not set. Discord posting skipped.")
 
