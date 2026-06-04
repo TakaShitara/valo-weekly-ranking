@@ -163,7 +163,14 @@ class HenrikApiClient:
     @staticmethod
     def _extract_data_list(payload: dict[str, Any]) -> list[dict[str, Any]]:
         data = payload.get("data", [])
-        return data if isinstance(data, list) else []
+        if isinstance(data, list):
+            return data
+        if isinstance(data, dict):
+            for key in ("history", "matches"):
+                items = data.get(key)
+                if isinstance(items, list):
+                    return items
+        return []
 
     @staticmethod
     def _parse_mmr_datetime(entry: dict[str, Any]) -> datetime | None:
