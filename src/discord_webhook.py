@@ -23,7 +23,7 @@ class DiscordWebhookClient:
         payload = {
             "embeds": [
                 {
-                    "title": "VALORANT 週間ランキング",
+                    "title": "TR週間ランキング",
                     "description": (
                         "集計期間\n"
                         f"{format_date(previous_date)} 〜 {format_date(snapshot.date)}"
@@ -36,22 +36,22 @@ class DiscordWebhookClient:
                             "inline": False,
                         },
                         {
-                            "name": "MVPランキング TOP3",
+                            "name": "\nMVPランキング TOP3",
                             "value": format_mvp(top_mvp(snapshot.players)),
                             "inline": False,
                         },
                         {
-                            "name": "勝率ランキング TOP3",
+                            "name": "\n勝率ランキング TOP3",
                             "value": format_win_rate(top_win_rate(snapshot.players)),
                             "inline": False,
                         },
                         {
-                            "name": "試合数ランキング TOP3",
+                            "name": "\n試合数ランキング TOP3",
                             "value": format_matches(top_matches(snapshot.players)),
                             "inline": False,
                         },
                         {
-                            "name": "エラー",
+                            "name": "\nエラー",
                             "value": format_errors(errors),
                             "inline": False,
                         },
@@ -80,13 +80,13 @@ class DiscordWebhookClient:
 
 
 def format_date(value: datetime) -> str:
-    return value.strftime("%Y-%m-%d %H:%M")
+    return value.strftime("%Y-%m-%d")
 
 
 def format_rr(players: list[PlayerStats]) -> str:
     if not players:
         return "対象者なし"
-    return "\n\n".join(
+    return "\n".join(
         f"{rank_icon(index)} **{player.name}**\n{player.rr_gain:+} RR"
         for index, player in enumerate(players, start=1)
     )
@@ -95,7 +95,7 @@ def format_rr(players: list[PlayerStats]) -> str:
 def format_mvp(players: list[PlayerStats]) -> str:
     if not players:
         return "対象者なし"
-    return "\n\n".join(
+    return "\n".join(
         f"{rank_icon(index)} **{player.name}**\n{player.mvp}回"
         for index, player in enumerate(players, start=1)
     )
@@ -104,7 +104,7 @@ def format_mvp(players: list[PlayerStats]) -> str:
 def format_win_rate(players: list[PlayerStats]) -> str:
     if not players:
         return "対象者なし（5試合以上）"
-    return "\n\n".join(
+    return "\n".join(
         f"{rank_icon(index)} **{player.name}**\n"
         f"{player.win_rate:.1%} / {player.wins}勝 {player.losses}敗 / {player.matches}試合"
         for index, player in enumerate(players, start=1)
@@ -114,7 +114,7 @@ def format_win_rate(players: list[PlayerStats]) -> str:
 def format_matches(players: list[PlayerStats]) -> str:
     if not players:
         return "対象者なし"
-    return "\n\n".join(
+    return "\n".join(
         f"{rank_icon(index)} **{player.name}**\n"
         f"{player.matches}試合 / {player.wins}勝 {player.losses}敗"
         for index, player in enumerate(players, start=1)
