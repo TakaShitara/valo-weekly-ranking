@@ -1451,6 +1451,115 @@
           "mvp": 0
         }
       ]
+    },
+    {
+      "date": "2026-08-22T22:03:12+09:00",
+      "players": [
+        {
+          "name": "watausa",
+          "rr_gain": -8,
+          "wins": 3,
+          "losses": 3,
+          "matches": 6,
+          "mvp": 1
+        },
+        {
+          "name": "ARUSU",
+          "rr_gain": 0,
+          "wins": 0,
+          "losses": 0,
+          "matches": 0,
+          "mvp": 0
+        },
+        {
+          "name": "KOPPAKUN",
+          "rr_gain": 11,
+          "wins": 10,
+          "losses": 8,
+          "matches": 18,
+          "mvp": 3
+        },
+        {
+          "name": "gucii",
+          "rr_gain": 0,
+          "wins": 0,
+          "losses": 0,
+          "matches": 0,
+          "mvp": 0
+        },
+        {
+          "name": "じゃん",
+          "rr_gain": 11,
+          "wins": 6,
+          "losses": 6,
+          "matches": 12,
+          "mvp": 0
+        },
+        {
+          "name": "ゆうし",
+          "rr_gain": -19,
+          "wins": 0,
+          "losses": 1,
+          "matches": 1,
+          "mvp": 0
+        },
+        {
+          "name": "くろたろ",
+          "rr_gain": 0,
+          "wins": 0,
+          "losses": 0,
+          "matches": 0,
+          "mvp": 0
+        },
+        {
+          "name": "なまにく",
+          "rr_gain": -25,
+          "wins": 9,
+          "losses": 11,
+          "matches": 20,
+          "mvp": 0
+        },
+        {
+          "name": "はけた",
+          "rr_gain": 2,
+          "wins": 4,
+          "losses": 4,
+          "matches": 8,
+          "mvp": 3
+        },
+        {
+          "name": "サマキ",
+          "rr_gain": -18,
+          "wins": 6,
+          "losses": 9,
+          "matches": 15,
+          "mvp": 1
+        },
+        {
+          "name": "wako",
+          "rr_gain": -13,
+          "wins": 3,
+          "losses": 4,
+          "matches": 7,
+          "mvp": 1
+        },
+        {
+          "name": "rew【りゅー】",
+          "rr_gain": 11,
+          "wins": 8,
+          "losses": 7,
+          "matches": 15,
+          "mvp": 1
+        },
+        {
+          "name": "こてつ",
+          "rr_gain": -14,
+          "wins": 2,
+          "losses": 4,
+          "matches": 6,
+          "mvp": 0
+        }
+      ]
     }
   ]
 }
